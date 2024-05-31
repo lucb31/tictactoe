@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Board.hpp"
 #include "AIPlayer.hpp"
+#include "RealPlayer.hpp"
 
 /*
 Iterations:
@@ -23,7 +24,7 @@ int main() {
     int val1 = 1;
     int val2 = 2;
     AIPlayer player1(val1);
-    AIPlayer player2(val2);
+    RealPlayer player2(val2);
     Board myBoard(&player1, &player2);
 
     myBoard.printState(); 

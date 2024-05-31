@@ -14,7 +14,6 @@ void Board::nextTurn() {
     else {
         activePlayer = player2;
     }
-    // Todo: Determine via user input in RealPlayer class
     int position = activePlayer->getNextMove();
 
     std::cout<<"Player "<<activePlayer->getValue()<<" choosing position "<<position<<"\n";
