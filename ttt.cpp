@@ -16,19 +16,20 @@ void greet_user() {
 }
 
 int main() {
-    // Greet user
-    greet_user();
-
-    // Initialize board
+    // Setup
     srand (time(NULL));
+    // Initialize board
     int val1 = 1;
     int val2 = 2;
-    AIPlayer player1(val1);
+    RealPlayer player1(val1);
     RealPlayer player2(val2);
     Board myBoard(&player1, &player2);
 
-    myBoard.printState(); 
+    // Greet user
+    greet_user();
 
+    // Game loop
+    myBoard.printState(); 
     while (!myBoard.isOver()) {
         myBoard.nextTurn();
     }

@@ -3,7 +3,6 @@
 #include "Board.hpp"
 #include "Player.hpp"
 
-// Currently will just randomly set a field
 void Board::nextTurn() {
     std::cout<<"Turn "<<currentTurn<<"\n";
     // Determine active player 
@@ -14,9 +13,12 @@ void Board::nextTurn() {
     else {
         activePlayer = player2;
     }
-    int position = activePlayer->getNextMove();
 
+    // Determine desired position
+    int position = activePlayer->getNextMove();
     std::cout<<"Player "<<activePlayer->getValue()<<" choosing position "<<position<<"\n";
+
+    // Try to occupy field & re-determine position if unsucessful
     bool turnExecuted = false;
     while (!turnExecuted){
         try {
