@@ -46,8 +46,8 @@ void Board::setField(int const &position, int const &playerIndex) {
 
 void Board::printState() {
     std::cout<<"--------------BOARD STATE START--------------\n";
-    for (int x = 0; x < sizeof gameState / sizeof gameState[0]; x++) {
-        for (int y = 0; y < sizeof gameState[0] / sizeof(int); y++) {
+    for (int x = 0; x < N_COLS; x++) {
+        for (int y = 0; y < N_ROWS; y++) {
             std::cout << " ";
             int &current = gameState[x][y];
             // Player 1
@@ -78,10 +78,10 @@ Returns 0 if no player won
 */
 int Board::getWinner() {
     // Check for row wins
-    for (int x = 0; x < 3; x++) {
+    for (int x = 0; x < N_COLS; x++) {
         bool isEqual = true;
         int &currentValue = gameState[x][0];
-        for (int y = 1; y < 3; y++) {
+        for (int y = 1; y < N_ROWS; y++) {
             if (gameState[x][y] != currentValue) {
                 isEqual = false;
             }
@@ -91,10 +91,10 @@ int Board::getWinner() {
         }
     }
     // Check for col wins
-    for (int y = 0; y < 3; y++) {
+    for (int y = 0; y < N_ROWS; y++) {
         bool isEqual = true;
         int &currentValue = gameState[0][y];
-        for (int x = 1; x < 3; x++) {
+        for (int x = 1; x < N_COLS; x++) {
             if (gameState[x][y] != currentValue) {
                 isEqual = false;
             }
@@ -127,9 +127,8 @@ bool Board::isOver() {
 }
 
 bool Board::hasVacantFields() {
-    int rows = sizeof gameState / sizeof gameState[0];
-    for (int x = 0; x < rows; x++) {
-        for (int y = 0; y < sizeof gameState[0] / sizeof(int); y++) {
+    for (int x = 0; x < N_COLS; x++) {
+        for (int y = 0; y < N_ROWS; y++) {
             if (gameState[x][y] == 0) {
                 return true;
             }
@@ -139,16 +138,14 @@ bool Board::hasVacantFields() {
 }
 
 // UTILITY
+// Convert position to x,y
 std::tuple<int, int> Board::posToXY(int const &position) {
-    // Convert position to x,y
-    int rows = sizeof gameState / sizeof gameState[0];
-    int x = (position - 1) / rows;
-    int y = (position - 1) % rows;
+    int x = (position - 1) / N_ROWS;
+    int y = (position - 1) % N_ROWS;
 
     return std::make_tuple(x,y);
 } 
 
 int Board::posFromXY(int const &x, int const &y) {
-    int rows = sizeof gameState / sizeof gameState[0];
-    return x*rows + y + 1;
+    return x*N_ROWS + y + 1;
 }
