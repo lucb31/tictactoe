@@ -1,3 +1,6 @@
+#pragma once
+#include "Player.hpp"
+
 class Board {
     /*
     0 = Unset
@@ -10,8 +13,11 @@ class Board {
         0,0,0
     };
     int currentTurn = 0;
+    Player *player1;
+    Player *player2;
 
     public: 
+        Board(Player *player1, Player *player2) : player1(player1), player2(player2) {}
         void nextTurn();
 
         void setField(int const &position, int const &playerIndex);

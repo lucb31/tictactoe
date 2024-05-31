@@ -1,21 +1,30 @@
 #include <iostream>
 #include <tuple>
 #include "Board.hpp"
+#include "Player.hpp"
 
 // Currently will just randomly set a field
 void Board::nextTurn() {
-    int playerIndex = currentTurn % 2 + 1;
-    // Todo: Determine via user input
-    int position = rand() % 9 + 1;
+    std::cout<<"Turn "<<currentTurn<<"\n";
+    // Determine active player 
+    Player *activePlayer;
+    if (currentTurn % 2 == 0) {
+        activePlayer = player1;
+    }
+    else {
+        activePlayer = player2;
+    }
+    // Todo: Determine via user input in RealPlayer class
+    int position = activePlayer->getNextMove();
 
-    std::cout<<"Turn "<<currentTurn<<": Player "<<playerIndex<<" choosing position "<<position<<"\n";
+    std::cout<<"Player "<<activePlayer->getValue()<<" choosing position "<<position<<"\n";
     bool turnExecuted = false;
     while (!turnExecuted){
         try {
-            setField(position, playerIndex);
+            setField(position, activePlayer->getValue());
             turnExecuted = true;
         } catch(const std::invalid_argument& e) {
-            position = rand() % 9 + 1;
+            position = activePlayer->getNextMove();
         }
     }
     printState(); 
@@ -36,8 +45,7 @@ void Board::setField(int const &position, int const &playerIndex) {
 
 void Board::printState() {
     std::cout<<"--------------BOARD STATE START--------------\n";
-    int rows = sizeof gameState / sizeof gameState[0];
-    for (int x = 0; x < rows; x++) {
+    for (int x = 0; x < sizeof gameState / sizeof gameState[0]; x++) {
         for (int y = 0; y < sizeof gameState[0] / sizeof(int); y++) {
             std::cout << " ";
             int &current = gameState[x][y];

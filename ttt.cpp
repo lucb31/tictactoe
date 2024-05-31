@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Board.hpp"
+#include "AIPlayer.hpp"
 
 /*
 Iterations:
@@ -19,7 +20,11 @@ int main() {
 
     // Initialize board
     srand (time(NULL));
-    Board myBoard;
+    int val1 = 1;
+    int val2 = 2;
+    AIPlayer player1(val1);
+    AIPlayer player2(val2);
+    Board myBoard(&player1, &player2);
 
     myBoard.printState(); 
 
@@ -31,5 +36,3 @@ int main() {
 
     return 0;
 }
-
-class Player {};
