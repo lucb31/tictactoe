@@ -14,7 +14,7 @@ void Board::initializePlayers() {
   int val1 = 1;
   int val2 = 2;
 
-  int choice = 1;
+  int choice = 3;
   // std::cout << "Please choose if you want to play \n";
   // std::cout << "  0: Human vs Human\n";
   // std::cout << "  1: Human vs AI\n";

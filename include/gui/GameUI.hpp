@@ -14,14 +14,16 @@ class GameUI {
   const int SCREEN_WIDTH = 640;
   const int SCREEN_HEIGHT = 480;
 
-  GameScene activeScene = GAME_SCENE_START;
-  Board* board;
-
   // SDL Dependencies
   SDL_Window* gWindow = NULL;
   SDL_Renderer* gRenderer = NULL;
   SDL_Surface* gSurface = NULL;
   bool needsRender = true;
+
+  // Game state
+  GameScene activeScene = GAME_SCENE_START;
+  Board* board;
+  Uint32 myTimer = 0;
 
   bool init();
   void render();

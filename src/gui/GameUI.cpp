@@ -32,11 +32,27 @@ bool GameUI::init() {
 void GameUI::start() {
   SDL_Event e;
   bool quit = false;
+
   // Game loop: Exited if game is over OR user requests to close the GUI
   while (!quit) {
     render();
-    // !board->isOver() &&
-    // myBoard.nextTurn();
+
+    // Next board turn (AI vs AI) every 2s
+    if (activeScene == GAME_SCENE_BOARD) {
+      // Update timer
+      Uint32 currentTime = SDL_GetTicks();
+      const int timeOffset = 2000;
+      if (currentTime > myTimer + timeOffset) {
+        printf("Enough time has passed, executing next turn \n");
+        board->nextTurn();
+        needsRender = true;
+        myTimer = currentTime;
+      }
+      // Switch scene to game over if board state is over
+      if (board->isOver()) {
+        switchScene(GAME_SCENE_GAME_OVER);
+      }
+    }
 
     // Listen for events
     if (SDL_PollEvent(&e) != 0) {
@@ -51,14 +67,14 @@ void GameUI::start() {
         }
       }
     }
-    // Switch scene to game over if board state is over
-    if (board->isOver()) {
-      activeScene = GAME_SCENE_GAME_OVER;
-    }
   }
 }
 
 void GameUI::switchScene(GameScene targetScene) {
+  // Dont need to switch if already active
+  if (activeScene == targetScene) {
+    return;
+  }
   activeScene = targetScene;
   needsRender = true;
 }
