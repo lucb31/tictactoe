@@ -1,10 +1,9 @@
+#include <engine/player/RealPlayer.hpp>
 #include <iostream>
 
-#include <engine/player/RealPlayer.hpp>
-
 int RealPlayer::getNextMove() {
-    int position;
-    std::cout<<"Player "<<getValue()<<": Choose your next position\n";
-    std::cin>>position;
-    return position;
+  int position;
+  std::cout << "Player " << getValue() << ": Choose your next position\n";
+  std::cin >> position;
+  return position;
 }

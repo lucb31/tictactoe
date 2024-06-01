@@ -1,37 +1,28 @@
-#include <iostream>
 #include <engine/Board.hpp>
 #include <engine/player/AIPlayer.hpp>
 #include <engine/player/RealPlayer.hpp>
+#include <gui/GameUI.hpp>
+#include <iostream>
 
-/*
-Iterations:
-V1: Solo vs Random AI
-*/
+int main(int argc, char* args[]) {
+  // Setup
+  srand(time(NULL));
 
-/*
-Output introduction message + Instructions on how to play.
-*/
-void greet_user() {
-    std::cout<<"Welcome to Tic-Tac-Toe. Further instructions will follow \n";
-}
+  // Init GUI
+  GameUI gui;
+  gui.drawLandingView();
 
-int main( int argc, char* args[] ) {
-    // Setup
-    srand (time(NULL));
+  // Init Game
+  Board myBoard;
 
-    // Init board
-    Board myBoard;
+  // Game loop
+  gui.drawBoard();
+  myBoard.printState();
+  while (!myBoard.isOver()) {
+    myBoard.nextTurn();
+  }
 
-    // Greet user
-    greet_user();
+  std::cout << "Game Over\n";
 
-    // Game loop
-    myBoard.printState(); 
-    while (!myBoard.isOver()) {
-        myBoard.nextTurn();
-    }
-    
-    std::cout<<"Game Over\n";
-
-    return 0;
+  return 0;
 }

@@ -11,6 +11,7 @@ add_library(
     engine/Board.cpp 
     engine/player/AIPlayer.cpp 
     engine/player/RealPlayer.cpp 
+    gui/GameUI.cpp 
     ${HEADER_LIST}
 )
 
@@ -19,6 +20,12 @@ target_include_directories(ttt_library PUBLIC ../include)
 
 # All users of this library will need at least C++11
 target_compile_features(ttt_library PUBLIC cxx_std_11)
+
+# Include SDL2: 
+# Todo: Move to GameUI makefile
+find_package(SDL2 REQUIRED)
+include_directories(ttt_library ${SDL2_INCLUDE_DIRS})
+target_link_libraries(ttt_library ${SDL2_LIBRARIES})
 
 # IDEs should put the headers in a nice place
 source_group(
