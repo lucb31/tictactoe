@@ -14,12 +14,12 @@ void Board::initializePlayers() {
   int val1 = 1;
   int val2 = 2;
 
-  int choice = 3;
-  std::cout << "Please choose if you want to play \n";
-  std::cout << "  0: Human vs Human\n";
-  std::cout << "  1: Human vs AI\n";
-  std::cout << "  2: AI vs AI\n";
-  std::cin >> choice;
+  int choice = 1;
+  // std::cout << "Please choose if you want to play \n";
+  // std::cout << "  0: Human vs Human\n";
+  // std::cout << "  1: Human vs AI\n";
+  // std::cout << "  2: AI vs AI\n";
+  // std::cin >> choice;
   switch (choice) {
     case 0:
       player1 = new RealPlayer(val1);
