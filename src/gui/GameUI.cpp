@@ -83,10 +83,13 @@ void GameUI::render() {
   needsRender = false;
 }
 
-void GameUI::drawLandingView() {
-  // Reset screen
+void GameUI::resetScreen() {
   SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
   SDL_RenderClear(gRenderer);
+}
+
+void GameUI::drawLandingView() {
+  resetScreen();
   // Render green outlined quad
   SDL_Rect outlineRect = {SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6,
                           SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT * 2 / 3};
@@ -102,12 +105,9 @@ void GameUI::drawBoard() {
   const int cols = 3;
   const int padding = 40;
   printf("Rendering board");
-  // Reset screen
-  SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-  SDL_RenderClear(gRenderer);
 
+  resetScreen();
   // Render grid
-
   // Render horizontal lines (black)
   SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
   for (int i = 1; i <= rows; i++) {
@@ -144,9 +144,7 @@ void GameUI::drawBoard() {
 void GameUI::drawGameOver() {
   printf("Game Over! Waiting for confirmation to close window\n");
 
-  // Reset screen
-  SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0xFF, 0xFF);
-  SDL_RenderClear(gRenderer);
+  resetScreen();
   // Render green outlined quad
   SDL_Rect outlineRect = {SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6,
                           SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT * 2 / 3};
@@ -154,18 +152,6 @@ void GameUI::drawGameOver() {
   SDL_RenderDrawRect(gRenderer, &outlineRect);
   // Update screen
   SDL_RenderPresent(gRenderer);
-
-  // Wait for user confirmation to close window
-  bool quit = false;
-  SDL_Event e;
-  while (!quit) {
-    while (SDL_PollEvent(&e) != 0) {
-      // User requested quit
-      if (e.type == SDL_QUIT) {
-        quit = true;
-      }
-    }
-  }
 }
 
 void GameUI::close() {

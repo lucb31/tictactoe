@@ -25,6 +25,7 @@ class GameUI {
 
   bool init();
   void render();
+  void resetScreen();
   void switchScene(GameScene targetScene);
   void drawBoard();
   void drawLandingView();
