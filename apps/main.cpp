@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Board.hpp"
-#include "AIPlayer.hpp"
-#include "RealPlayer.hpp"
+#include <engine/Board.hpp>
+#include <engine/player/AIPlayer.hpp>
+#include <engine/player/RealPlayer.hpp>
 
 /*
 Iterations:
@@ -15,7 +15,7 @@ void greet_user() {
     std::cout<<"Welcome to Tic-Tac-Toe. Further instructions will follow \n";
 }
 
-int main() {
+int main( int argc, char* args[] ) {
     // Setup
     srand (time(NULL));
     int val1 = 1;

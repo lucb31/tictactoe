@@ -1,5 +1,5 @@
 #pragma once
-#include "Player.hpp"
+#include <engine/player/Player.hpp>
 
 class AIPlayer : public Player {
     public: 

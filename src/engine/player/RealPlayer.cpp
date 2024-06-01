@@ -1,5 +1,6 @@
-#include "RealPlayer.hpp"
 #include <iostream>
+
+#include <engine/player/RealPlayer.hpp>
 
 int RealPlayer::getNextMove() {
     int position;

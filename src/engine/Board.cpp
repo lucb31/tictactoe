@@ -1,7 +1,8 @@
 #include <iostream>
 #include <tuple>
-#include "Board.hpp"
-#include "Player.hpp"
+
+#include <engine/Board.hpp>
+#include <engine/player/Player.hpp>
 
 void Board::nextTurn() {
     std::cout<<"Turn "<<currentTurn<<"\n";
@@ -134,6 +135,7 @@ bool Board::hasVacantFields() {
             }
         }
     }
+    std::cout<<"No more vacant fields!\n";
     return false;
 }
 
