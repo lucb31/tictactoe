@@ -69,6 +69,33 @@ void GameUI::drawBoard() {
   SDL_RenderPresent(gRenderer);
 }
 
+void GameUI::drawGameOver() {
+  printf("Game Over! Waiting for confirmation to close window\n");
+
+  // Reset screen
+  SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0xFF, 0xFF);
+  SDL_RenderClear(gRenderer);
+  // Render green outlined quad
+  SDL_Rect outlineRect = {SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6,
+                          SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT * 2 / 3};
+  SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0x00, 0xFF);
+  SDL_RenderDrawRect(gRenderer, &outlineRect);
+  // Update screen
+  SDL_RenderPresent(gRenderer);
+
+  // Wait for user confirmation to close window
+  bool quit = false;
+  SDL_Event e;
+  while (!quit) {
+    while (SDL_PollEvent(&e) != 0) {
+      // User requested quit
+      if (e.type == SDL_QUIT) {
+        quit = true;
+      }
+    }
+  }
+}
+
 GameUI::GameUI() { init(); }
 
 GameUI::~GameUI() {

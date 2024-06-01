@@ -22,7 +22,7 @@ int main(int argc, char* args[]) {
     myBoard.nextTurn();
   }
 
-  std::cout << "Game Over\n";
-
+  // Game Over -> Wait for exit
+  gui.drawGameOver();
   return 0;
 }
