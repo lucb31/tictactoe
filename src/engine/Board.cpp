@@ -3,6 +3,49 @@
 
 #include <engine/Board.hpp>
 #include <engine/player/Player.hpp>
+#include <engine/player/RealPlayer.hpp>
+#include <engine/player/AIPlayer.hpp>
+
+Board::Board() {
+    initializePlayers();
+    initializeMap();
+}
+
+void Board::initializePlayers() {
+    int val1 = 1;
+    int val2 = 2;
+
+    int choice = 3;
+    std::cout<<"Please choose if you want to play \n";
+    std::cout<<"  0: Human vs Human\n";
+    std::cout<<"  1: Human vs AI\n";
+    std::cout<<"  2: AI vs AI\n";
+    std::cin>>choice;
+    switch (choice) {
+        case 0:
+            player1 = new RealPlayer(val1);
+            player2 = new RealPlayer(val2);
+            break;
+        case 1:
+            player1 = new RealPlayer(val1);
+            player2 = new AIPlayer(val2);
+            break;
+        default:
+            player1 = new AIPlayer(val1);
+            player2 = new AIPlayer(val2);
+            break;
+    }
+}
+
+void Board::initializeMap() {
+    gameState = new int*[N_COLS];
+    for (int x = 0; x < N_COLS; x++) {
+        gameState[x] = new int[N_ROWS];
+        for (int y = 0; y < N_ROWS; y++) {
+            gameState[x][y] = 0;
+        }
+    }
+}
 
 void Board::nextTurn() {
     std::cout<<"Turn "<<currentTurn<<"\n";
