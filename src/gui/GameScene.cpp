@@ -3,9 +3,9 @@
 #include <gui/GameScene.hpp>
 #include <iostream>
 
-void GameScene::processFrame() { render(); }
-
 void GameScene::render() {
+  // Proceed scene logic by one frame
+  processFrame();
   // Ensures scene is only rendered if content has changed
   if (!needsRender) {
     return;

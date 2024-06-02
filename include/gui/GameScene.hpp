@@ -22,14 +22,13 @@ class GameScene {
 
   // Abstract: Draw content of current scene
   virtual void draw() = 0;
+  // Contains frame logic
+  virtual void processFrame() = 0;
 
  public:
   GameScene(SceneContext *sceneContext) : sceneContext(sceneContext) {}
   GameScenes getCurrentScene() { return currentScene; }
   GameScenes getNextScene() { return nextScene; }
-  // By default just renders current frame. Can be overwritten if additional
-  // per-frame logic required
-  void processFrame();
   // Ensures scene is only re-rendered if required
   void render();
   virtual void handleKeyPress(SDL_Event *e) = 0;

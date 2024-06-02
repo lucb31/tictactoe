@@ -4,6 +4,15 @@
 #include <engine/Board.hpp>
 #include <gui/GameSceneBoard.hpp>
 
+void GameSceneBoard::processFrame() {
+  // Try to execute next turn
+  if (board->nextTurn()) {
+    // update required if a turn was executed
+    updateActivePlayerTexture();
+    needsRender = true;
+  }
+}
+
 bool GameSceneBoard::init() { return updateActivePlayerTexture(); }
 
 bool GameSceneBoard::updateActivePlayerTexture() {
@@ -36,13 +45,11 @@ void GameSceneBoard::draw() {
 }
 
 void GameSceneBoard::handleKeyPress(SDL_Event *e) {
+  // Propagate event to active player
+  board->getActivePlayer()->handleKeyPress(e);
   // Switch to Game over scene on space bar
   if (e->key.keysym.sym == SDLK_SPACE) {
-    if (!board->isOver()) {
-      board->nextTurn();
-      updateActivePlayerTexture();
-      needsRender = true;
-    } else {
+    if (board->isOver()) {
       nextScene = GAME_SCENE_GAME_OVER;
     }
   }
@@ -131,7 +138,6 @@ void GameSceneBoard::drawBoard() {
 GameSceneBoard::GameSceneBoard(SceneContext *context) : GameScene(context) {
   // Init Game state
   board = new Board();
-  board->printState();
 
   init();
 }

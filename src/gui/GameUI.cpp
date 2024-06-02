@@ -63,7 +63,7 @@ void GameUI::start() {
 
   // Game loop: Exited if game is over OR user requests to close the GUI
   while (!quit) {
-    sceneManager->processFrame();
+    sceneManager->render();
 
     // Listen for events
     if (SDL_PollEvent(&e) != 0) {

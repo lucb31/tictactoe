@@ -10,6 +10,6 @@ class SceneManager {
  public:
   SceneManager(SceneContext *sceneContext) : sceneContext(sceneContext) {}
   void switchScene(GameScenes targetScene);
-  void processFrame();
+  void render();
   void handleKeyPress(SDL_Event *e) { activeScene->handleKeyPress(e); }
 };

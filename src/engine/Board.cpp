@@ -53,29 +53,29 @@ Player *Board::getActivePlayer() {
   return player2;
 }
 
-void Board::nextTurn() {
-  std::cout << "Turn " << currentTurn << "\n";
+bool Board::nextTurn() {
   // Determine active player
   Player *activePlayer = getActivePlayer();
 
   // Determine desired position
   int position = activePlayer->getNextMove();
+  // Exit if invalid position
+  if (position <= 0) {
+    return false;
+  }
+  activePlayer->resetNextMove();
   std::cout << "Player " << activePlayer->getValue() << " choosing position "
             << position << "\n";
 
-  // Try to occupy field & re-determine position if unsucessful
-  // Todo this loop needs to go
-  bool turnExecuted = false;
-  while (!turnExecuted) {
-    try {
-      setField(position, activePlayer->getValue());
-      turnExecuted = true;
-    } catch (const std::invalid_argument &e) {
-      position = activePlayer->getNextMove();
-    }
+  // Try to occupy field
+  try {
+    setField(position, activePlayer->getValue());
+  } catch (const std::invalid_argument &e) {
+    return false;
   }
-  printState();
   currentTurn++;
+
+  return true;
 }
 
 void Board::setField(int const &position, int const &playerIndex) {
@@ -88,32 +88,6 @@ void Board::setField(int const &position, int const &playerIndex) {
 
   // Update game state
   gameState[x][y] = playerIndex;
-}
-
-void Board::printState() {
-  std::cout << "--------------BOARD STATE START--------------\n";
-  for (int x = 0; x < N_COLS; x++) {
-    for (int y = 0; y < N_ROWS; y++) {
-      std::cout << " ";
-      int &current = gameState[x][y];
-      // Player 1
-      if (current == 1) {
-        std::cout << "X";
-      }
-      // Player 2
-      else if (current == 2) {
-        std::cout << "O";
-      }
-      // Print position to be occupied
-      else {
-        std::cout << posFromXY(x, y);
-      }
-
-      std::cout << " |";
-    }
-    std::cout << "\n";
-  }
-  std::cout << "--------------BOARD STATE END--------------\n\n";
 }
 
 /*

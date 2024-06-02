@@ -13,6 +13,7 @@ class GameSceneMenu : public GameScene {
  protected:
   GameScenes currentScene = GAME_SCENE_MENU;
   void draw();
+  void processFrame() {}
 
  public:
   GameSceneMenu(SceneContext *sceneContext) : GameScene(sceneContext) {

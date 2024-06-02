@@ -3,6 +3,6 @@
 
 class RealPlayer : public Player {
  public:
-  RealPlayer(int &playerValue) : Player{playerValue} {}
-  int getNextMove();
+  RealPlayer(int& playerValue) : Player{playerValue} {}
+  void handleKeyPress(SDL_Event* e);
 };

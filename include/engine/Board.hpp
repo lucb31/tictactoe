@@ -33,12 +33,11 @@ class Board {
   Player *getActivePlayer();
   int **getState() { return gameState; }
 
-  void nextTurn();
+  // Returns true if turn was executed
+  bool nextTurn();
 
   const int getField(int const &position);
   void setField(int const &position, int const &playerIndex);
-
-  void printState();
 
   bool isOver();
 

@@ -11,6 +11,7 @@ class GameSceneGameOver : public GameScene {
  protected:
   GameScenes currentScene = GAME_SCENE_GAME_OVER;
   void draw();
+  void processFrame() {}
 
  public:
   GameSceneGameOver(SceneContext *sceneContext) : GameScene(sceneContext) {

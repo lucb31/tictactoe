@@ -6,11 +6,11 @@
 #include <gui/SceneManager.hpp>
 #include <iostream>
 
-void SceneManager::processFrame() {
+void SceneManager::render() {
   if (activeScene == NULL) {
     std::__throw_runtime_error("No active scene!");
   }
-  activeScene->processFrame();
+  activeScene->render();
 
   // Listen for scene switches
   if (activeScene->getNextScene() != GAME_SCENE_UNDEF) {

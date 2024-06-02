@@ -2,4 +2,4 @@
 
 #include <engine/player/AIPlayer.hpp>
 
-int AIPlayer::getNextMove() { return rand() % 9 + 1; }
+void AIPlayer::handleKeyPress(SDL_Event* e) { nextMove = rand() % 9 + 1; }

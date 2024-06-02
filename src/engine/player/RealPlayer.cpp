@@ -1,9 +1,8 @@
 #include <engine/player/RealPlayer.hpp>
 #include <iostream>
 
-int RealPlayer::getNextMove() {
-  int position;
-  std::cout << "Player " << getValue() << ": Choose your next position\n";
-  std::cin >> position;
-  return position;
+void RealPlayer::handleKeyPress(SDL_Event* e) {
+  if (e->key.keysym.sym == SDLK_1) {
+    nextMove = 1;
+  }
 }
