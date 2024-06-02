@@ -15,6 +15,7 @@ class GameScene {
 
  protected:
   bool needsRender = true;
+  GameScenes currentScene = GAME_SCENE_UNDEF;
   GameScenes nextScene = GAME_SCENE_UNDEF;
 
   // Abstract: Render content of current scene
@@ -22,6 +23,7 @@ class GameScene {
                       const int &screenHeight) = 0;
 
  public:
+  GameScenes getCurrentScene() { return currentScene; }
   GameScenes getNextScene() { return nextScene; }
   // Ensure scene is only re-rendered if required
   void renderFrame(SDL_Renderer *renderer, const int &screenWidth,

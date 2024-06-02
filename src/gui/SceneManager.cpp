@@ -21,12 +21,13 @@ void SceneManager::render(SDL_Renderer *renderer, const int &screenWidth,
 
 void SceneManager::switchScene(GameScenes targetScene) {
   // Dont need to switch if already active
-  if (activeSceneEnum == targetScene) {
+  if (activeScene != NULL && activeScene->getCurrentScene() == targetScene) {
     return;
   }
   std::cout << "Trying to switch to scene " << targetScene << "\n";
 
-  // TODO Destroy current scene
+  // Destroy current scene
+  delete activeScene;
 
   switch (targetScene) {
     case GAME_SCENE_MENU:
@@ -44,6 +45,5 @@ void SceneManager::switchScene(GameScenes targetScene) {
       std::__throw_runtime_error("Trying to switch to unknown scene!");
       break;
   }
-  activeSceneEnum = targetScene;
-  std::cout << "Switched to scene " << activeSceneEnum << "\n";
+  std::cout << "Switched to scene " << targetScene << "\n";
 }

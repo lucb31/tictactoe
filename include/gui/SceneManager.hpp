@@ -4,7 +4,6 @@
 
 class SceneManager {
   GameScene *activeScene = NULL;
-  GameScenes activeSceneEnum = GAME_SCENE_UNDEF;
 
  public:
   void switchScene(GameScenes targetScene);
