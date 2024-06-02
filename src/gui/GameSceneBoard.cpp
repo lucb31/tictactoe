@@ -39,16 +39,20 @@ void GameSceneBoard::drawBoardGrid() {
   const int cols = board->getWidth();
   const int padding = 20;
   // Set color: black
-  SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+  SDL_SetRenderDrawColor(sceneContext->renderer, 0x00, 0x00, 0x00, 0xFF);
   // Render horizontal lines
   for (int i = 1; i <= rows; i++) {
-    SDL_RenderDrawLine(renderer, padding, screenHeight / rows * i,
-                       screenWidth - padding, screenHeight / rows * i);
+    SDL_RenderDrawLine(sceneContext->renderer, padding,
+                       sceneContext->screenHeight / rows * i,
+                       sceneContext->screenWidth - padding,
+                       sceneContext->screenHeight / rows * i);
   }
   // Render vertical lines
   for (int j = 1; j <= cols; j++) {
-    SDL_RenderDrawLine(renderer, screenWidth / cols * j, padding,
-                       screenWidth / cols * j, screenHeight - padding);
+    SDL_RenderDrawLine(sceneContext->renderer,
+                       sceneContext->screenWidth / cols * j, padding,
+                       sceneContext->screenWidth / cols * j,
+                       sceneContext->screenHeight - padding);
   }
 }
 
@@ -68,24 +72,30 @@ int calcIconSize(const int &screenWidth, const int &screenHeight) {
 
 void GameSceneBoard::drawCross(const int &boardX, const int &boardY) {
   // Render cross at center pos (blue)
-  SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
-  int center_x = calcCenterX(boardX, board->getWidth(), screenWidth);
-  int center_y = calcCenterY(boardY, board->getHeight(), screenHeight);
-  int size = calcIconSize(screenWidth, screenHeight);
-  SDL_RenderDrawLine(renderer, center_x - size, center_y - size,
+  SDL_SetRenderDrawColor(sceneContext->renderer, 0x00, 0x00, 0xFF, 0xFF);
+  int center_x =
+      calcCenterX(boardX, board->getWidth(), sceneContext->screenWidth);
+  int center_y =
+      calcCenterY(boardY, board->getHeight(), sceneContext->screenHeight);
+  int size =
+      calcIconSize(sceneContext->screenWidth, sceneContext->screenHeight);
+  SDL_RenderDrawLine(sceneContext->renderer, center_x - size, center_y - size,
                      center_x + size, center_y + size);
-  SDL_RenderDrawLine(renderer, center_x - size, center_y + size,
+  SDL_RenderDrawLine(sceneContext->renderer, center_x - size, center_y + size,
                      center_x + size, center_y - size);
 }
 
 void GameSceneBoard::drawRect(const int &boardX, const int &boardY) {
   // Render outlined quad (green)
-  int center_x = calcCenterX(boardX, board->getWidth(), screenWidth);
-  int center_y = calcCenterY(boardY, board->getHeight(), screenHeight);
-  int size = calcIconSize(screenWidth, screenHeight);
+  int center_x =
+      calcCenterX(boardX, board->getWidth(), sceneContext->screenWidth);
+  int center_y =
+      calcCenterY(boardY, board->getHeight(), sceneContext->screenHeight);
+  int size =
+      calcIconSize(sceneContext->screenWidth, sceneContext->screenHeight);
   SDL_Rect outlineRect = {center_x - size, center_y - size, size * 2, size * 2};
-  SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-  SDL_RenderDrawRect(renderer, &outlineRect);
+  SDL_SetRenderDrawColor(sceneContext->renderer, 0x00, 0xFF, 0x00, 0xFF);
+  SDL_RenderDrawRect(sceneContext->renderer, &outlineRect);
 }
 
 void GameSceneBoard::drawBoard() {
@@ -102,13 +112,9 @@ void GameSceneBoard::drawBoard() {
       }
     }
   }
-
-  SDL_RenderPresent(renderer);
 }
 
-GameSceneBoard::GameSceneBoard(SDL_Renderer *renderer, const int &screenWidth,
-                               const int &screenHeight)
-    : GameScene(renderer, screenWidth, screenHeight) {
+GameSceneBoard::GameSceneBoard(SceneContext *context) : GameScene(context) {
   // Init Game state
   board = new Board();
   board->printState();

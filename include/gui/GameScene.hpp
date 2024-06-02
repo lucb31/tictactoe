@@ -1,5 +1,5 @@
 #pragma once
-#include <SDL2/SDL.h>
+#include <gui/SceneContext.hpp>
 
 enum GameScenes {
   GAME_SCENE_UNDEF,
@@ -14,12 +14,7 @@ class GameScene {
   void resetScreen();
 
  protected:
-  // Screen dimension constants
-  const int screenWidth;
-  const int screenHeight;
-
-  // SDL Dependencies
-  SDL_Renderer *renderer = NULL;
+  SceneContext *sceneContext = NULL;
 
   bool needsRender = true;
   GameScenes currentScene = GAME_SCENE_UNDEF;
@@ -29,11 +24,7 @@ class GameScene {
   virtual void render() = 0;
 
  public:
-  GameScene(SDL_Renderer *renderer, const int &screenWidth,
-            const int &screenHeight)
-      : renderer(renderer),
-        screenWidth(screenWidth),
-        screenHeight(screenHeight) {}
+  GameScene(SceneContext *sceneContext) : sceneContext(sceneContext) {}
   GameScenes getCurrentScene() { return currentScene; }
   GameScenes getNextScene() { return nextScene; }
   // Ensure scene is only re-rendered if required

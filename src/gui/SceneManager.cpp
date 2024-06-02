@@ -30,14 +30,13 @@ void SceneManager::switchScene(GameScenes targetScene) {
 
   switch (targetScene) {
     case GAME_SCENE_MENU:
-      activeScene = new GameSceneMenu(renderer, screenWidth, screenHeight);
-      /* code */
+      activeScene = new GameSceneMenu(sceneContext);
       break;
     case GAME_SCENE_BOARD:
-      activeScene = new GameSceneBoard(renderer, screenWidth, screenHeight);
+      activeScene = new GameSceneBoard(sceneContext);
       break;
     case GAME_SCENE_GAME_OVER:
-      activeScene = new GameSceneGameOver(renderer, screenWidth, screenHeight);
+      activeScene = new GameSceneGameOver(sceneContext);
       break;
 
     default:

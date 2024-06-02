@@ -13,10 +13,12 @@ void GameScene::renderFrame() {
   // Reset screen before drawing new content
   resetScreen();
   render();
+  // Update screen
+  SDL_RenderPresent(sceneContext->renderer);
   needsRender = false;
 }
 
 void GameScene::resetScreen() {
-  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-  SDL_RenderClear(renderer);
+  SDL_SetRenderDrawColor(sceneContext->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  SDL_RenderClear(sceneContext->renderer);
 }

@@ -16,6 +16,7 @@ add_library(
     gui/GameSceneBoard.cpp 
     gui/GameSceneMenu.cpp 
     gui/GameSceneGameOver.cpp 
+    gui/LTexture.cpp 
     gui/SceneManager.cpp 
     ${HEADER_LIST}
 )
@@ -28,9 +29,16 @@ target_compile_features(ttt_library PUBLIC cxx_std_11)
 
 # Include SDL2: 
 # Todo: Move to GameUI makefile
+# Add SDL2 CMake modules
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 find_package(SDL2 REQUIRED)
-include_directories(ttt_library ${SDL2_INCLUDE_DIRS})
-target_link_libraries(ttt_library ${SDL2_LIBRARIES})
+find_package(SDL2_ttf REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_TTF_INCLUDE_DIRS})
+target_link_libraries(ttt_library ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES})
+# find_package(SDL2_image REQUIRED)
+# include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
+
 
 # IDEs should put the headers in a nice place
 source_group(

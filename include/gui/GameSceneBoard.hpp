@@ -3,6 +3,7 @@
 
 #include <engine/Board.hpp>
 #include <gui/GameScene.hpp>
+#include <gui/SceneContext.hpp>
 
 class GameSceneBoard : public GameScene {
   Board *board;
@@ -19,8 +20,7 @@ class GameSceneBoard : public GameScene {
   GameScenes currentScene = GAME_SCENE_BOARD;
 
  public:
-  GameSceneBoard(SDL_Renderer *renderer, const int &screenWidth,
-                 const int &screenHeight);
+  GameSceneBoard(SceneContext *sceneContext);
   void render();
   void handleKeyPress(SDL_Event *e);
 };

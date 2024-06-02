@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include <gui/SceneManager.hpp>
 
@@ -13,14 +14,19 @@ class GameUI {
   SDL_Window* gWindow = NULL;
   SDL_Renderer* gRenderer = NULL;
   SDL_Surface* gSurface = NULL;
+  TTF_Font* gFont = NULL;
 
   // Scene management
   SceneManager* sceneManager = NULL;
 
   bool init();
+  bool loadMedia();
 
  public:
-  GameUI() { init(); }
+  GameUI() {
+    init();
+    loadMedia();
+  }
   // Starts the main game loop
   void start();
   void close();
