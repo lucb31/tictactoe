@@ -35,6 +35,7 @@ class Board {
 
   void nextTurn();
 
+  const int getField(int const &position);
   void setField(int const &position, int const &playerIndex);
 
   void printState();

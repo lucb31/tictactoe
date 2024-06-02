@@ -19,7 +19,7 @@ bool GameSceneBoard::updateActivePlayerTexture() {
   return true;
 }
 
-void GameSceneBoard::render() {
+void GameSceneBoard::draw() {
   drawBoard();
   // Render active player text
   fontTexture.render(sceneContext->renderer, 20, 20);

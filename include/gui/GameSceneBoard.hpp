@@ -23,10 +23,11 @@ class GameSceneBoard : public GameScene {
 
  protected:
   GameScenes currentScene = GAME_SCENE_BOARD;
+  void processFrame();
+  void draw();
 
  public:
   GameSceneBoard(SceneContext *sceneContext);
   ~GameSceneBoard();
-  void render();
   void handleKeyPress(SDL_Event *e);
 };

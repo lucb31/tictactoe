@@ -3,7 +3,9 @@
 #include <gui/GameScene.hpp>
 #include <iostream>
 
-void GameScene::renderFrame() {
+void GameScene::processFrame() { render(); }
+
+void GameScene::render() {
   // Ensures scene is only rendered if content has changed
   if (!needsRender) {
     return;
@@ -12,7 +14,7 @@ void GameScene::renderFrame() {
   std::cout << "Scene needs to be re-rendered\n";
   // Reset screen before drawing new content
   resetScreen();
-  render();
+  draw();
   // Update screen
   SDL_RenderPresent(sceneContext->renderer);
   needsRender = false;

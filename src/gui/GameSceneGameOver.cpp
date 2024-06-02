@@ -12,7 +12,7 @@ bool GameSceneGameOver::init() {
   }
   return true;
 }
-void GameSceneGameOver::render() {
+void GameSceneGameOver::draw() {
   // Render red outlined quad
   SDL_Rect outlineRect = {
       sceneContext->screenWidth / 6, sceneContext->screenHeight / 6,

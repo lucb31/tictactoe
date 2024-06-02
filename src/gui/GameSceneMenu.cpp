@@ -16,7 +16,7 @@ bool GameSceneMenu::init() {
   }
   return true;
 }
-void GameSceneMenu::render() {
+void GameSceneMenu::draw() {
   // Render green outlined quad
   SDL_Rect outlineRect = {
       sceneContext->screenWidth / 6, sceneContext->screenHeight / 6,

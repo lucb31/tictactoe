@@ -64,6 +64,7 @@ void Board::nextTurn() {
             << position << "\n";
 
   // Try to occupy field & re-determine position if unsucessful
+  // Todo this loop needs to go
   bool turnExecuted = false;
   while (!turnExecuted) {
     try {
@@ -192,3 +193,9 @@ std::tuple<int, int> Board::posToXY(int const &position) {
 }
 
 int Board::posFromXY(int const &x, int const &y) { return x * N_ROWS + y + 1; }
+
+const int Board::getField(const int &position) {
+  auto [x, y] = posToXY(position);
+
+  return gameState[x][y];
+}

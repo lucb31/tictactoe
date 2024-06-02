@@ -10,12 +10,12 @@ class GameSceneGameOver : public GameScene {
 
  protected:
   GameScenes currentScene = GAME_SCENE_GAME_OVER;
+  void draw();
 
  public:
   GameSceneGameOver(SceneContext *sceneContext) : GameScene(sceneContext) {
     init();
   }
   ~GameSceneGameOver();
-  void render();
   void handleKeyPress(SDL_Event *e);
 };

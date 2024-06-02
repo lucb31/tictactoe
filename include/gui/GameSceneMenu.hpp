@@ -12,12 +12,12 @@ class GameSceneMenu : public GameScene {
 
  protected:
   GameScenes currentScene = GAME_SCENE_MENU;
+  void draw();
 
  public:
   GameSceneMenu(SceneContext *sceneContext) : GameScene(sceneContext) {
     init();
   }
   ~GameSceneMenu();
-  void render();
   void handleKeyPress(SDL_Event *e);
 };
