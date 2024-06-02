@@ -5,8 +5,9 @@
 bool GameSceneGameOver::init() {
   // Render text
   SDL_Color textColor = {255, 0, 0};
-  if (!fontTexture.loadFromRenderedText(
-          "GameOver", textColor, sceneContext->gFont, sceneContext->renderer)) {
+  if (!fontTexture.loadFromRenderedText("GameOver. Press \"SPACE\" to go back",
+                                        textColor, sceneContext->gFont,
+                                        sceneContext->renderer)) {
     printf("Failed to render text texture!\n");
     return false;
   }

@@ -4,5 +4,6 @@
 class AIPlayer : public Player {
  public:
   AIPlayer(int& playerValue) : Player{playerValue} {}
-  void handleKeyPress(SDL_Event* e);
+  void handleKeyPress(SDL_Event* e) {}
+  int getNextMove();
 };

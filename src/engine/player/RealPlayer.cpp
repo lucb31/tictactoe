@@ -1,6 +1,15 @@
 #include <engine/player/RealPlayer.hpp>
 #include <iostream>
 
+int RealPlayer::getNextMove() {
+  if (nextMove > -1) {
+    int copiedMove = nextMove;
+    // Reset queued move before returning
+    nextMove = -1;
+    return copiedMove;
+  }
+  return nextMove;
+}
 void RealPlayer::handleKeyPress(SDL_Event* e) {
   switch (e->key.keysym.sym) {
     case SDLK_1:

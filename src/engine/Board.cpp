@@ -34,6 +34,7 @@ void Board::initializePlayers() {
       player2 = new AIPlayer(val2);
       break;
   }
+  updateActivePlayer();
 }
 
 void Board::initializeMap() {
@@ -53,6 +54,16 @@ Player *Board::getActivePlayer() {
   return player2;
 }
 
+void Board::updateActivePlayer() {
+  if (currentTurn % 2 == 0) {
+    player1->setActive();
+    player2->setInactive();
+    return;
+  }
+  player1->setInactive();
+  player2->setActive();
+}
+
 bool Board::nextTurn() {
   // Determine active player
   Player *activePlayer = getActivePlayer();
@@ -63,7 +74,6 @@ bool Board::nextTurn() {
   if (position <= 0) {
     return false;
   }
-  activePlayer->resetNextMove();
   std::cout << "Turn " << currentTurn << ", Player " << activePlayer->getValue()
             << ": Choose position " << position << "\n";
 
@@ -76,6 +86,7 @@ bool Board::nextTurn() {
     return false;
   }
   currentTurn++;
+  updateActivePlayer();
 
   return true;
 }
@@ -107,7 +118,9 @@ int Board::getWinner() {
         isEqual = false;
       }
     }
-    if (isEqual) {
+    // All cols equal in this row and not unoccupied
+    if (isEqual && currentValue > 0) {
+      std::cout << "WINNER by rows: Player " << currentValue << "\n";
       return currentValue;
     }
   }
@@ -120,14 +133,18 @@ int Board::getWinner() {
         isEqual = false;
       }
     }
-    if (isEqual) {
+    // All rows equal in this col and not unoccupied
+    if (isEqual && currentValue > 0) {
+      std::cout << "WINNER by cols: Player " << currentValue << "\n";
       return currentValue;
     }
   }
   // Check diagonals
   int &centerValue = gameState[1][1];
-  if (gameState[0][0] == centerValue && gameState[2][2] == centerValue ||
-      gameState[0][2] == centerValue && gameState[2][0] == centerValue) {
+  if (centerValue > 0 &&
+      (gameState[0][0] == centerValue && gameState[2][2] == centerValue ||
+       gameState[0][2] == centerValue && gameState[2][0] == centerValue)) {
+    std::cout << "WINNER by diagonals: Player " << centerValue << "\n";
     return centerValue;
   }
 
@@ -135,11 +152,11 @@ int Board::getWinner() {
 }
 
 bool Board::isOver() {
-  int winner = getWinner();
-  // Determine win condition
-  if (getWinner() > 0) {
-    std::cout << "WINNER: Player " << winner << "\n";
-
+  // Update winner
+  if (winner == 0) {
+    winner = getWinner();
+  }
+  if (winner > 0) {
     return true;
   }
 

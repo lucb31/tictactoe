@@ -5,6 +5,11 @@
 #include <gui/GameSceneBoard.hpp>
 
 void GameSceneBoard::processFrame() {
+  if (board->isOver()) {
+    // Switch to Game over scene
+    nextScene = GAME_SCENE_GAME_OVER;
+    return;
+  }
   // Try to execute next turn
   if (board->nextTurn()) {
     // update required if a turn was executed
@@ -48,27 +53,11 @@ void GameSceneBoard::draw() {
   drawBoard();
   // Render active player text
   fontTexture.render(sceneContext->renderer, 20, 20);
-  // Next board turn (AI vs AI) every 2s
-  // Update timer
-  // Uint32 currentTime = SDL_GetTicks();
-  // const int timeOffset = 2000;
-  // if (currentTime > myTimer + timeOffset) {
-  //   printf("Enough time has passed, executing next turn \n");
-  //   board->nextTurn();
-  //   needsRender = true;
-  //   myTimer = currentTime;
-  // }
 }
 
 void GameSceneBoard::handleKeyPress(SDL_Event *e) {
   // Propagate event to active player
   board->getActivePlayer()->handleKeyPress(e);
-  // Switch to Game over scene on space bar
-  if (e->key.keysym.sym == SDLK_SPACE) {
-    if (board->isOver()) {
-      nextScene = GAME_SCENE_GAME_OVER;
-    }
-  }
 }
 
 void GameSceneBoard::drawBoardGrid() {

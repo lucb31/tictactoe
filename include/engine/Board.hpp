@@ -12,6 +12,7 @@ class Board {
   */
   int **gameState;
   int currentTurn = 0;
+  int winner = 0;
   Player *player1;
   Player *player2;
 
@@ -26,6 +27,8 @@ class Board {
   void initializeMap();
 
   void initializePlayers();
+
+  void updateActivePlayer();
 
  public:
   Board();
