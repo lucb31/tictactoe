@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
 
-#include <engine/Board.hpp>
 #include <gui/SceneManager.hpp>
 
 class GameUI {
@@ -17,15 +16,11 @@ class GameUI {
 
   // Scene management
   SceneManager* sceneManager = NULL;
-  // Todo Move to board scene
-  Board* board;
-  Uint32 myTimer = 0;
 
   bool init();
 
  public:
-  // Todo remove board
-  GameUI(Board* board) : board(board) { init(); }
+  GameUI() { init(); }
   // Starts the main game loop
   void start();
   void close();

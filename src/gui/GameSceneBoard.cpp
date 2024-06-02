@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 
+#include <engine/Board.hpp>
 #include <gui/GameSceneBoard.hpp>
 
 void GameSceneBoard::render(SDL_Renderer *renderer, const int &screenWidth,
@@ -25,7 +26,11 @@ void GameSceneBoard::render(SDL_Renderer *renderer, const int &screenWidth,
 void GameSceneBoard::handleKeyPress(SDL_Event *e) {
   // Switch to Game over scene on space bar
   if (e->key.keysym.sym == SDLK_SPACE) {
-    nextScene = GAME_SCENE_GAME_OVER;
+    if (!board->isOver()) {
+      board->nextTurn();
+    } else {
+      nextScene = GAME_SCENE_GAME_OVER;
+    }
   }
 }
 
@@ -68,4 +73,10 @@ void GameSceneBoard::drawBoard(SDL_Renderer *renderer, const int &screenWidth,
   SDL_RenderDrawRect(renderer, &outlineRect);
 
   SDL_RenderPresent(renderer);
+}
+
+GameSceneBoard::GameSceneBoard() {
+  // Init Game state
+  board = new Board();
+  board->printState();
 }
