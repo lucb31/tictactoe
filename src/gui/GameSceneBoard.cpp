@@ -34,16 +34,15 @@ void GameSceneBoard::handleKeyPress(SDL_Event *e) {
   }
 }
 
-// Todo Draw actual board state
-void GameSceneBoard::drawBoard(SDL_Renderer *renderer, const int &screenWidth,
-                               const int &screenHeight) {
-  const int rows = 3;
-  const int cols = 3;
+void GameSceneBoard::drawBoardGrid(SDL_Renderer *renderer,
+                                   const int &screenWidth,
+                                   const int &screenHeight) {
+  const int rows = board->getHeight();
+  const int cols = board->getWidth();
   const int padding = 40;
-
-  // Render grid
-  // Render horizontal lines (black)
+  // Set color: black
   SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+  // Render horizontal lines
   for (int i = 1; i <= rows; i++) {
     SDL_RenderDrawLine(renderer, padding, screenHeight / rows * i,
                        screenWidth - padding, screenHeight / rows * i);
@@ -53,7 +52,11 @@ void GameSceneBoard::drawBoard(SDL_Renderer *renderer, const int &screenWidth,
     SDL_RenderDrawLine(renderer, screenWidth / cols * j, 0,
                        screenWidth / cols * j, screenHeight);
   }
+}
 
+void GameSceneBoard::drawBoard(SDL_Renderer *renderer, const int &screenWidth,
+                               const int &screenHeight) {
+  drawBoardGrid(renderer, screenWidth, screenHeight);
   // Render cross at center pos (blue)
   SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
   int center_x = screenWidth / 6 * 1;

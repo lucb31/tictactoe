@@ -7,8 +7,12 @@
 class GameSceneBoard : public GameScene {
   Board *board;
   Uint32 myTimer = 0;
+  // Draw the whole board scene
   void drawBoard(SDL_Renderer *renderer, const int &screenWidth,
                  const int &screenHeight);
+  // Draw an empty grid
+  void drawBoardGrid(SDL_Renderer *renderer, const int &screenWidth,
+                     const int &screenHeight);
 
  protected:
   GameScenes currentScene = GAME_SCENE_BOARD;

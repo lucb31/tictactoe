@@ -15,6 +15,18 @@ class Board {
   Player *player1;
   Player *player2;
 
+  int getWinner();
+
+  bool hasVacantFields();
+
+  std::tuple<int, int> posToXY(int const &position);
+
+  int posFromXY(int const &x, int const &y);
+
+  void initializeMap();
+
+  void initializePlayers();
+
  public:
   Board();
 
@@ -28,16 +40,6 @@ class Board {
 
   bool isOver();
 
- private:
-  int getWinner();
-
-  bool hasVacantFields();
-
-  std::tuple<int, int> posToXY(int const &position);
-
-  int posFromXY(int const &x, int const &y);
-
-  void initializeMap();
-
-  void initializePlayers();
+  const int &getWidth() { return N_COLS; }
+  const int &getHeight() { return N_ROWS; }
 };
