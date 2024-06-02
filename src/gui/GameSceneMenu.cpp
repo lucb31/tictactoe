@@ -24,7 +24,7 @@ void GameSceneMenu::render() {
   SDL_SetRenderDrawColor(sceneContext->renderer, 0x00, 0xFF, 0x00, 0xFF);
   SDL_RenderDrawRect(sceneContext->renderer, &outlineRect);
 
-  // Render text
+  // Render welcome text
   fontTexture.render(
       sceneContext->renderer,
       (sceneContext->screenWidth - fontTexture.getWidth()) / 2,
