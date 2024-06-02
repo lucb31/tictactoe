@@ -14,7 +14,7 @@ void Board::initializePlayers() {
   int val1 = 1;
   int val2 = 2;
 
-  int choice = 3;
+  int choice = 1;
   // std::cout << "Please choose if you want to play \n";
   // std::cout << "  0: Human vs Human\n";
   // std::cout << "  1: Human vs AI\n";
@@ -64,13 +64,15 @@ bool Board::nextTurn() {
     return false;
   }
   activePlayer->resetNextMove();
-  std::cout << "Player " << activePlayer->getValue() << " choosing position "
-            << position << "\n";
+  std::cout << "Turn " << currentTurn << ", Player " << activePlayer->getValue()
+            << ": Choose position " << position << "\n";
 
   // Try to occupy field
   try {
     setField(position, activePlayer->getValue());
   } catch (const std::invalid_argument &e) {
+    std::cout << "Player " << activePlayer->getValue() << " move to position "
+              << position << " denied: Field already occupied\n";
     return false;
   }
   currentTurn++;
@@ -160,8 +162,8 @@ bool Board::hasVacantFields() {
 // UTILITY
 // Convert position to x,y
 std::tuple<int, int> Board::posToXY(int const &position) {
-  int x = (position - 1) / N_ROWS;
-  int y = (position - 1) % N_ROWS;
+  int x = (position - 1) % N_ROWS;
+  int y = (position - 1) / N_ROWS;
 
   return std::make_tuple(x, y);
 }
