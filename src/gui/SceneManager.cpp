@@ -6,12 +6,11 @@
 #include <gui/SceneManager.hpp>
 #include <iostream>
 
-void SceneManager::render(SDL_Renderer *renderer, const int &screenWidth,
-                          const int &screenHeight) {
+void SceneManager::render() {
   if (activeScene == NULL) {
     std::__throw_runtime_error("No active scene!");
   }
-  activeScene->renderFrame(renderer, screenWidth, screenHeight);
+  activeScene->renderFrame();
 
   // Listen for scene switches
   if (activeScene->getNextScene() != GAME_SCENE_UNDEF) {
@@ -31,14 +30,14 @@ void SceneManager::switchScene(GameScenes targetScene) {
 
   switch (targetScene) {
     case GAME_SCENE_MENU:
-      activeScene = new GameSceneMenu();
+      activeScene = new GameSceneMenu(renderer, screenWidth, screenHeight);
       /* code */
       break;
     case GAME_SCENE_BOARD:
-      activeScene = new GameSceneBoard();
+      activeScene = new GameSceneBoard(renderer, screenWidth, screenHeight);
       break;
     case GAME_SCENE_GAME_OVER:
-      activeScene = new GameSceneGameOver();
+      activeScene = new GameSceneGameOver(renderer, screenWidth, screenHeight);
       break;
 
     default:

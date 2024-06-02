@@ -5,8 +5,7 @@
 #include <gui/GameSceneMenu.hpp>
 #include <iostream>
 
-void GameSceneMenu::render(SDL_Renderer *renderer, const int &screenWidth,
-                           const int &screenHeight) {
+void GameSceneMenu::render() {
   // Render green outlined quad
   SDL_Rect outlineRect = {screenWidth / 6, screenHeight / 6,
                           screenWidth * 2 / 3, screenHeight * 2 / 3};

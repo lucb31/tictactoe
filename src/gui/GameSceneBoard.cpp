@@ -3,9 +3,8 @@
 #include <engine/Board.hpp>
 #include <gui/GameSceneBoard.hpp>
 
-void GameSceneBoard::render(SDL_Renderer *renderer, const int &screenWidth,
-                            const int &screenHeight) {
-  drawBoard(renderer, screenWidth, screenHeight);
+void GameSceneBoard::render() {
+  drawBoard();
   // Next board turn (AI vs AI) every 2s
   // Update timer
   // Uint32 currentTime = SDL_GetTicks();
@@ -34,9 +33,7 @@ void GameSceneBoard::handleKeyPress(SDL_Event *e) {
   }
 }
 
-void GameSceneBoard::drawBoardGrid(SDL_Renderer *renderer,
-                                   const int &screenWidth,
-                                   const int &screenHeight) {
+void GameSceneBoard::drawBoardGrid() {
   const int rows = board->getHeight();
   const int cols = board->getWidth();
   const int padding = 40;
@@ -54,9 +51,8 @@ void GameSceneBoard::drawBoardGrid(SDL_Renderer *renderer,
   }
 }
 
-void GameSceneBoard::drawBoard(SDL_Renderer *renderer, const int &screenWidth,
-                               const int &screenHeight) {
-  drawBoardGrid(renderer, screenWidth, screenHeight);
+void GameSceneBoard::drawBoard() {
+  drawBoardGrid();
   // Render cross at center pos (blue)
   SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
   int center_x = screenWidth / 6 * 1;
@@ -78,7 +74,9 @@ void GameSceneBoard::drawBoard(SDL_Renderer *renderer, const int &screenWidth,
   SDL_RenderPresent(renderer);
 }
 
-GameSceneBoard::GameSceneBoard() {
+GameSceneBoard::GameSceneBoard(SDL_Renderer *renderer, const int &screenWidth,
+                               const int &screenHeight)
+    : GameScene(renderer, screenWidth, screenHeight) {
   // Init Game state
   board = new Board();
   board->printState();

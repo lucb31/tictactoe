@@ -8,7 +8,9 @@ class GameSceneMenu : public GameScene {
   GameScenes currentScene = GAME_SCENE_MENU;
 
  public:
-  void render(SDL_Renderer *renderer, const int &screenWidth,
-              const int &screenHeight);
+  GameSceneMenu(SDL_Renderer *renderer, const int &screenWidth,
+                const int &screenHeight)
+      : GameScene(renderer, screenWidth, screenHeight) {}
+  void render();
   void handleKeyPress(SDL_Event *e);
 };

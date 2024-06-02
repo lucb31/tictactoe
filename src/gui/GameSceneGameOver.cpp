@@ -2,8 +2,7 @@
 
 #include <gui/GameSceneGameOver.hpp>
 
-void GameSceneGameOver::render(SDL_Renderer *renderer, const int &screenWidth,
-                               const int &screenHeight) {
+void GameSceneGameOver::render() {
   // Render red outlined quad
   SDL_Rect outlineRect = {screenWidth / 6, screenHeight / 6,
                           screenWidth * 2 / 3, screenHeight * 2 / 3};

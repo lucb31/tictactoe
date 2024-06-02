@@ -8,18 +8,16 @@ class GameSceneBoard : public GameScene {
   Board *board;
   Uint32 myTimer = 0;
   // Draw the whole board scene
-  void drawBoard(SDL_Renderer *renderer, const int &screenWidth,
-                 const int &screenHeight);
+  void drawBoard();
   // Draw an empty grid
-  void drawBoardGrid(SDL_Renderer *renderer, const int &screenWidth,
-                     const int &screenHeight);
+  void drawBoardGrid();
 
  protected:
   GameScenes currentScene = GAME_SCENE_BOARD;
 
  public:
-  GameSceneBoard();
-  void render(SDL_Renderer *renderer, const int &screenWidth,
-              const int &screenHeight);
+  GameSceneBoard(SDL_Renderer *renderer, const int &screenWidth,
+                 const int &screenHeight);
+  void render();
   void handleKeyPress(SDL_Event *e);
 };

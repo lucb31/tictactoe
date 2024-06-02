@@ -6,7 +6,9 @@ class GameSceneGameOver : public GameScene {
   GameScenes currentScene = GAME_SCENE_GAME_OVER;
 
  public:
-  void render(SDL_Renderer *renderer, const int &screenWidth,
-              const int &screenHeight);
+  GameSceneGameOver(SDL_Renderer *renderer, const int &screenWidth,
+                    const int &screenHeight)
+      : GameScene(renderer, screenWidth, screenHeight) {}
+  void render();
   void handleKeyPress(SDL_Event *e);
 };

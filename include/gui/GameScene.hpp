@@ -1,4 +1,5 @@
 #pragma once
+#include <SDL2/SDL.h>
 
 enum GameScenes {
   GAME_SCENE_UNDEF,
@@ -10,23 +11,32 @@ enum GameScenes {
 class GameScene {
  private:
   // Clear scene before rendering new content
-  void resetScreen(SDL_Renderer *renderer, const int &screenWidth,
-                   const int &screenHeight);
+  void resetScreen();
 
  protected:
+  // Screen dimension constants
+  const int screenWidth;
+  const int screenHeight;
+
+  // SDL Dependencies
+  SDL_Renderer *renderer = NULL;
+
   bool needsRender = true;
   GameScenes currentScene = GAME_SCENE_UNDEF;
   GameScenes nextScene = GAME_SCENE_UNDEF;
 
   // Abstract: Render content of current scene
-  virtual void render(SDL_Renderer *renderer, const int &screenWidth,
-                      const int &screenHeight) = 0;
+  virtual void render() = 0;
 
  public:
+  GameScene(SDL_Renderer *renderer, const int &screenWidth,
+            const int &screenHeight)
+      : renderer(renderer),
+        screenWidth(screenWidth),
+        screenHeight(screenHeight) {}
   GameScenes getCurrentScene() { return currentScene; }
   GameScenes getNextScene() { return nextScene; }
   // Ensure scene is only re-rendered if required
-  void renderFrame(SDL_Renderer *renderer, const int &screenWidth,
-                   const int &screenHeight);
+  void renderFrame();
   virtual void handleKeyPress(SDL_Event *e) = 0;
 };

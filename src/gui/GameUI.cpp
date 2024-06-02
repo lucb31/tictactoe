@@ -34,7 +34,7 @@ bool GameUI::init() {
 
 void GameUI::start() {
   // Initialize starting scene
-  sceneManager = new SceneManager();
+  sceneManager = new SceneManager(gRenderer, SCREEN_WIDTH, SCREEN_HEIGHT);
   sceneManager->switchScene(GAME_SCENE_MENU);
 
   SDL_Event e;
@@ -42,7 +42,7 @@ void GameUI::start() {
 
   // Game loop: Exited if game is over OR user requests to close the GUI
   while (!quit) {
-    sceneManager->render(gRenderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    sceneManager->render();
 
     // Listen for events
     if (SDL_PollEvent(&e) != 0) {
