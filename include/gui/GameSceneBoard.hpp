@@ -8,6 +8,7 @@
 
 class GameSceneBoard : public GameScene {
   LTexture fontTexture;
+  LTexture previewTextures[9];
 
   Board *board;
   Uint32 myTimer = 0;

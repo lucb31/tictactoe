@@ -13,7 +13,23 @@ void GameSceneBoard::processFrame() {
   }
 }
 
-bool GameSceneBoard::init() { return updateActivePlayerTexture(); }
+bool GameSceneBoard::init() {
+  if (!updateActivePlayerTexture()) {
+    return false;
+  }
+
+  for (int i = 0; i < 9; i++) {
+    SDL_Color textColor = {0, 0, 0};
+    char buffer[2];
+    sprintf(buffer, "%d", i + 1);
+    if (!previewTextures[i].loadFromRenderedText(
+            buffer, textColor, sceneContext->gFont, sceneContext->renderer)) {
+      printf("Failed to render preview texture!\n");
+      return false;
+    }
+  }
+  return true;
+}
 
 bool GameSceneBoard::updateActivePlayerTexture() {
   Player *activePlayer = board->getActivePlayer();
@@ -130,6 +146,13 @@ void GameSceneBoard::drawBoard() {
         drawCross(x, y);
       } else if (boardState[x][y] == 2) {
         drawRect(x, y);
+      } else {
+        // render preview texture
+        int idx = y * board->getHeight() + x;
+        previewTextures[idx].render(
+            sceneContext->renderer,
+            calcCenterX(x, board->getWidth(), sceneContext->screenWidth),
+            calcCenterY(y, board->getHeight(), sceneContext->screenHeight));
       }
     }
   }
