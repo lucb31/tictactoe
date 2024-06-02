@@ -12,6 +12,11 @@ add_library(
     engine/player/AIPlayer.cpp 
     engine/player/RealPlayer.cpp 
     gui/GameUI.cpp 
+    gui/GameScene.cpp 
+    gui/GameSceneBoard.cpp 
+    gui/GameSceneMenu.cpp 
+    gui/GameSceneGameOver.cpp 
+    gui/SceneManager.cpp 
     ${HEADER_LIST}
 )
 

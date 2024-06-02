@@ -1,12 +1,8 @@
+#pragma once
 #include <SDL2/SDL.h>
 
 #include <engine/Board.hpp>
-
-enum GameScene {
-  GAME_SCENE_START,
-  GAME_SCENE_BOARD,
-  GAME_SCENE_GAME_OVER,
-};
+#include <gui/SceneManager.hpp>
 
 class GameUI {
  private:
@@ -18,23 +14,18 @@ class GameUI {
   SDL_Window* gWindow = NULL;
   SDL_Renderer* gRenderer = NULL;
   SDL_Surface* gSurface = NULL;
-  bool needsRender = true;
 
-  // Game state
-  GameScene activeScene = GAME_SCENE_START;
+  // Scene management
+  SceneManager* sceneManager = NULL;
+  // Todo Move to board scene
   Board* board;
   Uint32 myTimer = 0;
 
   bool init();
-  void render();
-  void resetScreen();
-  void switchScene(GameScene targetScene);
-  void drawBoard();
-  void drawLandingView();
-  void drawGameOver();
 
  public:
-  GameUI(Board* board) : board(board) { init(); };
+  // Todo remove board
+  GameUI(Board* board) : board(board) { init(); }
   // Starts the main game loop
   void start();
   void close();
