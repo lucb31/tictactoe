@@ -42,7 +42,8 @@ bool GameUI::init() {
 bool GameUI::loadMedia() {
   // Open the font
   // Todo use relative path
-  gFont = TTF_OpenFont("/home/lucas/projects/tictactoe/resources/lazy.ttf", 28);
+  gFont = TTF_OpenFont(
+      "/home/lucas/projects/tictactoe/resources/MouldyCheeseRegular.ttf", 28);
   if (gFont == NULL) {
     printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
     return false;

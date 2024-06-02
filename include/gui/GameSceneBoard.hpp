@@ -3,12 +3,17 @@
 
 #include <engine/Board.hpp>
 #include <gui/GameScene.hpp>
+#include <gui/LTexture.hpp>
 #include <gui/SceneContext.hpp>
 
 class GameSceneBoard : public GameScene {
+  LTexture fontTexture;
+
   Board *board;
   Uint32 myTimer = 0;
 
+  bool init();
+  bool updateActivePlayerTexture();
   // Draw the whole board scene
   void drawBoard();
   // Draw an empty grid
@@ -21,6 +26,7 @@ class GameSceneBoard : public GameScene {
 
  public:
   GameSceneBoard(SceneContext *sceneContext);
+  ~GameSceneBoard();
   void render();
   void handleKeyPress(SDL_Event *e);
 };

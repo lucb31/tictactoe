@@ -46,15 +46,17 @@ void Board::initializeMap() {
   }
 }
 
+Player *Board::getActivePlayer() {
+  if (currentTurn % 2 == 0) {
+    return player1;
+  }
+  return player2;
+}
+
 void Board::nextTurn() {
   std::cout << "Turn " << currentTurn << "\n";
   // Determine active player
-  Player *activePlayer;
-  if (currentTurn % 2 == 0) {
-    activePlayer = player1;
-  } else {
-    activePlayer = player2;
-  }
+  Player *activePlayer = getActivePlayer();
 
   // Determine desired position
   int position = activePlayer->getNextMove();

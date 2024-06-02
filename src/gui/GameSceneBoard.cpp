@@ -1,10 +1,28 @@
 #include <SDL2/SDL.h>
+#include <string.h>
 
 #include <engine/Board.hpp>
 #include <gui/GameSceneBoard.hpp>
 
+bool GameSceneBoard::init() { return updateActivePlayerTexture(); }
+
+bool GameSceneBoard::updateActivePlayerTexture() {
+  Player *activePlayer = board->getActivePlayer();
+  char buffer[50];
+  sprintf(buffer, "Active player: Player %d", activePlayer->getValue());
+  SDL_Color textColor = {0, 0, 0};
+  if (!fontTexture.loadFromRenderedText(buffer, textColor, sceneContext->gFont,
+                                        sceneContext->renderer)) {
+    printf("Failed to render text texture!\n");
+    return false;
+  }
+  return true;
+}
+
 void GameSceneBoard::render() {
   drawBoard();
+  // Render active player text
+  fontTexture.render(sceneContext->renderer, 20, 20);
   // Next board turn (AI vs AI) every 2s
   // Update timer
   // Uint32 currentTime = SDL_GetTicks();
@@ -15,11 +33,6 @@ void GameSceneBoard::render() {
   //   needsRender = true;
   //   myTimer = currentTime;
   // }
-  // // Switch scene to game over if board state is over
-  // if (board->isOver()) {
-
-  //   switchScene(GAME_SCENE_GAME_OVER);
-  // }
 }
 
 void GameSceneBoard::handleKeyPress(SDL_Event *e) {
@@ -27,6 +40,7 @@ void GameSceneBoard::handleKeyPress(SDL_Event *e) {
   if (e->key.keysym.sym == SDLK_SPACE) {
     if (!board->isOver()) {
       board->nextTurn();
+      updateActivePlayerTexture();
       needsRender = true;
     } else {
       nextScene = GAME_SCENE_GAME_OVER;
@@ -118,4 +132,8 @@ GameSceneBoard::GameSceneBoard(SceneContext *context) : GameScene(context) {
   // Init Game state
   board = new Board();
   board->printState();
+
+  init();
 }
+
+GameSceneBoard::~GameSceneBoard() { fontTexture.free(); }

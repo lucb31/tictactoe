@@ -30,6 +30,7 @@ class Board {
  public:
   Board();
 
+  Player *getActivePlayer();
   int **getState() { return gameState; }
 
   void nextTurn();
