@@ -27,6 +27,7 @@ void GameSceneBoard::handleKeyPress(SDL_Event *e) {
   if (e->key.keysym.sym == SDLK_SPACE) {
     if (!board->isOver()) {
       board->nextTurn();
+      needsRender = true;
     } else {
       nextScene = GAME_SCENE_GAME_OVER;
     }
@@ -36,7 +37,7 @@ void GameSceneBoard::handleKeyPress(SDL_Event *e) {
 void GameSceneBoard::drawBoardGrid() {
   const int rows = board->getHeight();
   const int cols = board->getWidth();
-  const int padding = 40;
+  const int padding = 20;
   // Set color: black
   SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
   // Render horizontal lines
@@ -46,30 +47,61 @@ void GameSceneBoard::drawBoardGrid() {
   }
   // Render vertical lines
   for (int j = 1; j <= cols; j++) {
-    SDL_RenderDrawLine(renderer, screenWidth / cols * j, 0,
-                       screenWidth / cols * j, screenHeight);
+    SDL_RenderDrawLine(renderer, screenWidth / cols * j, padding,
+                       screenWidth / cols * j, screenHeight - padding);
   }
+}
+
+int calcCenterX(const int &boardX, const int &boardWidth,
+                const int &screenWidth) {
+  return screenWidth / (boardWidth * 2) * (boardX * 2 + 1);
+}
+
+int calcCenterY(const int &boardY, const int &boardHeight,
+                const int &screenHeight) {
+  return screenHeight / (boardHeight * 2) * (boardY * 2 + 1);
+}
+
+int calcIconSize(const int &screenWidth, const int &screenHeight) {
+  return screenWidth > screenHeight ? screenWidth / 15 : screenHeight / 15;
+}
+
+void GameSceneBoard::drawCross(const int &boardX, const int &boardY) {
+  // Render cross at center pos (blue)
+  SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
+  int center_x = calcCenterX(boardX, board->getWidth(), screenWidth);
+  int center_y = calcCenterY(boardY, board->getHeight(), screenHeight);
+  int size = calcIconSize(screenWidth, screenHeight);
+  SDL_RenderDrawLine(renderer, center_x - size, center_y - size,
+                     center_x + size, center_y + size);
+  SDL_RenderDrawLine(renderer, center_x - size, center_y + size,
+                     center_x + size, center_y - size);
+}
+
+void GameSceneBoard::drawRect(const int &boardX, const int &boardY) {
+  // Render outlined quad (green)
+  int center_x = calcCenterX(boardX, board->getWidth(), screenWidth);
+  int center_y = calcCenterY(boardY, board->getHeight(), screenHeight);
+  int size = calcIconSize(screenWidth, screenHeight);
+  SDL_Rect outlineRect = {center_x - size, center_y - size, size * 2, size * 2};
+  SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+  SDL_RenderDrawRect(renderer, &outlineRect);
 }
 
 void GameSceneBoard::drawBoard() {
   drawBoardGrid();
-  // Render cross at center pos (blue)
-  SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
-  int center_x = screenWidth / 6 * 1;
-  int center_y = screenHeight / 6 * 1;
-  int offset = 40;
-  SDL_RenderDrawLine(renderer, center_x - offset, center_y - offset,
-                     center_x + offset, center_y + offset);
-  SDL_RenderDrawLine(renderer, center_x - offset, center_y + offset,
-                     center_x + offset, center_y - offset);
 
-  // Render outlined quad (green)
-  center_x = screenWidth / 6 * 3;
-  center_y = screenHeight / 6 * 3;
-  SDL_Rect outlineRect = {center_x - offset, center_y - offset, offset * 2,
-                          offset * 2};
-  SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-  SDL_RenderDrawRect(renderer, &outlineRect);
+  // Draw crosses & rects for board state
+  int **boardState = board->getState();
+  for (int x = 0; x < board->getWidth(); x++) {
+    for (int y = 0; y < board->getHeight(); y++) {
+      if (boardState[x][y] == 1) {
+        drawCross(x, y);
+      } else if (boardState[x][y] == 2) {
+        drawRect(x, y);
+      }
+    }
+  }
 
   SDL_RenderPresent(renderer);
 }
