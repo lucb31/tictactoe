@@ -18,6 +18,7 @@ class GameScene {
   // FPS Counter
   int totalFrames = 0;
   LTimer fpsTimer;
+  LTimer fpsCapTimer;
   LTexture fpsTexture;
 
   // Clear scene before rendering new content

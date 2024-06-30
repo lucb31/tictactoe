@@ -5,6 +5,7 @@
 #include <sstream>
 
 void GameScene::render() {
+  fpsCapTimer.start();
   // Proceed scene logic by one frame
   processFrame();
 
@@ -14,6 +15,10 @@ void GameScene::render() {
   draw();
   // Update screen
   SDL_RenderPresent(sceneContext->renderer);
+  int frameTicks = fpsCapTimer.getTicks();
+  if (frameTicks < SCREEN_TICKS_PER_FRAME) {
+    SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
+  }
 }
 
 void GameScene::renderFrameRate() {
