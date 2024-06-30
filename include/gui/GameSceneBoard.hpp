@@ -24,8 +24,8 @@ class GameSceneBoard : public GameScene {
   void drawBoard();
   // Draw an empty grid
   void drawBoardGrid();
-  void drawCross(Position &boardPosition);
-  void drawRect(Position &boardPosition);
+  void drawCross(Position &boardPosition, bool animated);
+  void drawRect(Position &boardPosition, bool animated);
   // Utility
   Position boardPositionToScreenPosition(Position &boardPosition);
 
