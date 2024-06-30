@@ -20,8 +20,6 @@ class Board {
 
   bool hasVacantFields();
 
-  std::tuple<int, int> posToXY(int const &position);
-
   int posFromXY(int const &x, int const &y);
 
   void initializeMap();
@@ -41,6 +39,7 @@ class Board {
 
   const int getField(int const &position);
   void setField(int const &position, int const &playerIndex);
+  std::tuple<int, int> posToXY(int const &position);
 
   bool isOver();
 

@@ -39,6 +39,22 @@ void RealPlayer::handleKeyPress(SDL_Event* e) {
     case SDLK_9:
       nextMove = 9;
       break;
+    case SDLK_LEFT:
+      if (selectedMove > 1) selectedMove--;
+      break;
+    case SDLK_RIGHT:
+      if (selectedMove < 9) selectedMove++;
+      break;
+    case SDLK_UP:
+      if (selectedMove > 3) selectedMove -= 3;
+      break;
+    case SDLK_DOWN:
+      if (selectedMove < 7) selectedMove += 3;
+      break;
+    // Confirm selected move for next move
+    case SDLK_SPACE:
+      nextMove = selectedMove;
+      break;
     default:
       return;
   }

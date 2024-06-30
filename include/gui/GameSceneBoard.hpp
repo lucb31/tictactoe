@@ -20,10 +20,9 @@ class GameSceneBoard : public GameScene {
 
   bool init();
   bool updateActivePlayerTexture();
-  // Draw the whole board scene
-  void drawBoard();
   // Draw an empty grid
   void drawBoardGrid();
+  void drawBoardState();
   void drawCross(Position &boardPosition, bool animated);
   void drawRect(Position &boardPosition, bool animated);
   // Utility

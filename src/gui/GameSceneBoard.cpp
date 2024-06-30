@@ -62,7 +62,16 @@ bool GameSceneBoard::updateActivePlayerTexture() {
 }
 
 void GameSceneBoard::draw() {
-  drawBoard();
+  drawBoardGrid();
+  drawBoardState();
+  // Render player selection preview
+  Player *activePlayer = board->getActivePlayer();
+  if (activePlayer->getValue() == 1) {
+    int selectedMove = activePlayer->getSelectedMove();
+    auto [x, y] = board->posToXY(selectedMove);
+    Position myPos = {x, y};
+    drawCross(myPos, true);
+  }
   // Render active player text
   fontTexture.render(sceneContext->renderer, 20, 20);
 }
@@ -149,16 +158,14 @@ void GameSceneBoard::drawRect(Position &boardPosition, bool animated = false) {
   SDL_RenderDrawLines(sceneContext->renderer, points, nrPoints);
 }
 
-void GameSceneBoard::drawBoard() {
-  drawBoardGrid();
-
-  // Draw crosses & rects for board state
+// Draw crosses & rects for board state
+void GameSceneBoard::drawBoardState() {
   int **boardState = board->getState();
   for (int x = 0; x < board->getWidth(); x++) {
     for (int y = 0; y < board->getHeight(); y++) {
       Position boardPosition = {x, y};
       if (boardState[x][y] == 1) {
-        drawCross(boardPosition, true);
+        drawCross(boardPosition, false);
       } else if (boardState[x][y] == 2) {
         drawRect(boardPosition, false);
       } else {
