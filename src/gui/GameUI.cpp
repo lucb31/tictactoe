@@ -21,7 +21,7 @@ bool GameUI::init() {
     return false;
   }
   // Create renderer
-  gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+  gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_PRESENTVSYNC);
   if (gRenderer == NULL) {
     printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
     return false;

@@ -16,7 +16,6 @@ class GameScene {
   const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
   // FPS Counter
-  int totalFrames = 0;
   LTimer fpsTimer;
   LTimer fpsCapTimer;
   LTexture fpsTexture;
@@ -26,6 +25,7 @@ class GameScene {
   void renderFrameRate();
 
  protected:
+  int totalFrames = 0;
   SceneContext *sceneContext = NULL;
 
   GameScenes currentScene = GAME_SCENE_UNDEF;

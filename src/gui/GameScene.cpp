@@ -31,7 +31,8 @@ void GameScene::renderFrameRate() {
   // Assemble texture
   std::stringstream timeText;
   timeText.str();
-  timeText << "FPS " << avgFps;
+  int avgFpsRounded = avgFps;
+  timeText << "FPS " << avgFpsRounded;
   SDL_Color textColor = {255, 0, 0};
   if (!fpsTexture.loadFromRenderedText(timeText.str().c_str(), textColor,
                                        sceneContext->gFont,

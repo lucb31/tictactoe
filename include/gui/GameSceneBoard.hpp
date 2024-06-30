@@ -11,7 +11,7 @@ class GameSceneBoard : public GameScene {
   LTexture previewTextures[9];
 
   Board *board;
-  Uint32 myTimer = 0;
+  int iconSize = 5;
 
   bool init();
   bool updateActivePlayerTexture();

@@ -4,6 +4,8 @@
 #include <engine/Board.hpp>
 #include <gui/GameSceneBoard.hpp>
 
+#define PI 3.141592654
+
 void GameSceneBoard::processFrame() {
   if (board->isOver()) {
     // Switch to Game over scene
@@ -18,6 +20,8 @@ void GameSceneBoard::processFrame() {
 }
 
 bool GameSceneBoard::init() {
+  iconSize =
+      calcIconSize(sceneContext->screenWidth, sceneContext->screenHeight);
   // Init Game state
   board = new Board();
 
@@ -96,23 +100,35 @@ int calcCenterY(const int &boardY, const int &boardHeight,
   return screenHeight / (boardHeight * 2) * (boardY * 2 + 1);
 }
 
+// Ensures size of icons scales with screen dimension
 int calcIconSize(const int &screenWidth, const int &screenHeight) {
-  return screenWidth > screenHeight ? screenWidth / 15 : screenHeight / 15;
+  return screenWidth > screenHeight ? screenWidth / 25 : screenHeight / 25;
 }
 
+// Render cross at center pos
 void GameSceneBoard::drawCross(const int &boardX, const int &boardY) {
-  // Render cross at center pos (blue)
-  SDL_SetRenderDrawColor(sceneContext->renderer, 0x00, 0x00, 0xFF, 0xFF);
+  // Transform board position into screen position
   int center_x =
       calcCenterX(boardX, board->getWidth(), sceneContext->screenWidth);
   int center_y =
       calcCenterY(boardY, board->getHeight(), sceneContext->screenHeight);
-  int size =
-      calcIconSize(sceneContext->screenWidth, sceneContext->screenHeight);
-  SDL_RenderDrawLine(sceneContext->renderer, center_x - size, center_y - size,
-                     center_x + size, center_y + size);
-  SDL_RenderDrawLine(sceneContext->renderer, center_x - size, center_y + size,
-                     center_x + size, center_y - size);
+
+  double rotationAngle = 0 + totalFrames * 0.5f;
+  double radians = (rotationAngle * PI) / 180;
+
+  // Set blue render color
+  SDL_SetRenderDrawColor(sceneContext->renderer, 0x00, 0x00, 0xFF, 0xFF);
+  // First line
+  int end_x = cos(radians) * iconSize;
+  int end_y = sin(radians) * iconSize;
+  SDL_RenderDrawLine(sceneContext->renderer, center_x + end_x, center_y + end_y,
+                     center_x - end_x, center_y - end_y);
+  // Second line rotated by 90°
+  int end_x_2 = cos(radians + PI / 2) * iconSize;
+  int end_y_2 = sin(radians + PI / 2) * iconSize;
+  SDL_RenderDrawLine(sceneContext->renderer, center_x + end_x_2,
+                     center_y + end_y_2, center_x - end_x_2,
+                     center_y - end_y_2);
 }
 
 void GameSceneBoard::drawRect(const int &boardX, const int &boardY) {
