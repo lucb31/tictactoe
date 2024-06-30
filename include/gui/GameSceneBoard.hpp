@@ -6,6 +6,11 @@
 #include <gui/LTexture.hpp>
 #include <gui/SceneContext.hpp>
 
+struct Position {
+  int x;
+  int y;
+};
+
 class GameSceneBoard : public GameScene {
   LTexture fontTexture;
   LTexture previewTextures[9];
@@ -19,8 +24,10 @@ class GameSceneBoard : public GameScene {
   void drawBoard();
   // Draw an empty grid
   void drawBoardGrid();
-  void drawCross(const int &boardX, const int &boardY);
-  void drawRect(const int &boardX, const int &boardY);
+  void drawCross(Position &boardPosition);
+  void drawRect(Position &boardPosition);
+  // Utility
+  Position boardPositionToScreenPosition(Position &boardPosition);
 
  protected:
   GameScenes currentScene = GAME_SCENE_BOARD;

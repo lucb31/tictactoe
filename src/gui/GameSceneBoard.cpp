@@ -19,6 +19,11 @@ void GameSceneBoard::processFrame() {
   }
 }
 
+// Ensures size of icons scales with screen dimension
+int calcIconSize(const int &screenWidth, const int &screenHeight) {
+  return screenWidth > screenHeight ? screenWidth / 25 : screenHeight / 25;
+}
+
 bool GameSceneBoard::init() {
   iconSize =
       calcIconSize(sceneContext->screenWidth, sceneContext->screenHeight);
@@ -90,28 +95,19 @@ void GameSceneBoard::drawBoardGrid() {
   }
 }
 
-int calcCenterX(const int &boardX, const int &boardWidth,
-                const int &screenWidth) {
-  return screenWidth / (boardWidth * 2) * (boardX * 2 + 1);
-}
-
-int calcCenterY(const int &boardY, const int &boardHeight,
-                const int &screenHeight) {
-  return screenHeight / (boardHeight * 2) * (boardY * 2 + 1);
-}
-
-// Ensures size of icons scales with screen dimension
-int calcIconSize(const int &screenWidth, const int &screenHeight) {
-  return screenWidth > screenHeight ? screenWidth / 25 : screenHeight / 25;
+Position GameSceneBoard::boardPositionToScreenPosition(
+    Position &boardPosition) {
+  int centerX = sceneContext->screenWidth / (board->getWidth() * 2) *
+                (boardPosition.x * 2 + 1);
+  int centerY = sceneContext->screenHeight / (board->getHeight() * 2) *
+                (boardPosition.y * 2 + 1);
+  return {centerX, centerY};
 }
 
 // Render cross at center pos
-void GameSceneBoard::drawCross(const int &boardX, const int &boardY) {
+void GameSceneBoard::drawCross(Position &boardPosition) {
   // Transform board position into screen position
-  int center_x =
-      calcCenterX(boardX, board->getWidth(), sceneContext->screenWidth);
-  int center_y =
-      calcCenterY(boardY, board->getHeight(), sceneContext->screenHeight);
+  Position pos = boardPositionToScreenPosition(boardPosition);
 
   double rotationAngle = 0 + totalFrames * 0.5f;
   double radians = (rotationAngle * PI) / 180;
@@ -121,25 +117,24 @@ void GameSceneBoard::drawCross(const int &boardX, const int &boardY) {
   // First line
   int end_x = cos(radians) * iconSize;
   int end_y = sin(radians) * iconSize;
-  SDL_RenderDrawLine(sceneContext->renderer, center_x + end_x, center_y + end_y,
-                     center_x - end_x, center_y - end_y);
+  SDL_RenderDrawLine(sceneContext->renderer, pos.x + end_x, pos.y + end_y,
+                     pos.x - end_x, pos.y - end_y);
   // Second line rotated by 90°
   int end_x_2 = cos(radians + PI / 2) * iconSize;
   int end_y_2 = sin(radians + PI / 2) * iconSize;
-  SDL_RenderDrawLine(sceneContext->renderer, center_x + end_x_2,
-                     center_y + end_y_2, center_x - end_x_2,
-                     center_y - end_y_2);
+  SDL_RenderDrawLine(sceneContext->renderer, pos.x + end_x_2, pos.y + end_y_2,
+                     pos.x - end_x_2, pos.y - end_y_2);
 }
 
-void GameSceneBoard::drawRect(const int &boardX, const int &boardY) {
-  // Render outlined quad (green)
-  int center_x =
-      calcCenterX(boardX, board->getWidth(), sceneContext->screenWidth);
-  int center_y =
-      calcCenterY(boardY, board->getHeight(), sceneContext->screenHeight);
-  int size =
-      calcIconSize(sceneContext->screenWidth, sceneContext->screenHeight);
-  SDL_Rect outlineRect = {center_x - size, center_y - size, size * 2, size * 2};
+// Render outlined quad (green)
+void GameSceneBoard::drawRect(Position &boardPosition) {
+  // Transform board position into screen position
+  Position pos = boardPositionToScreenPosition(boardPosition);
+
+  double rotationAngle = 0 + totalFrames * 0.5f;
+  double radians = (rotationAngle * PI) / 180;
+  SDL_Rect outlineRect = {pos.x - iconSize, pos.y - iconSize, iconSize * 2,
+                          iconSize * 2};
   SDL_SetRenderDrawColor(sceneContext->renderer, 0x00, 0xFF, 0x00, 0xFF);
   SDL_RenderDrawRect(sceneContext->renderer, &outlineRect);
 }
@@ -151,17 +146,17 @@ void GameSceneBoard::drawBoard() {
   int **boardState = board->getState();
   for (int x = 0; x < board->getWidth(); x++) {
     for (int y = 0; y < board->getHeight(); y++) {
+      Position boardPosition = {x, y};
       if (boardState[x][y] == 1) {
-        drawCross(x, y);
+        drawCross(boardPosition);
       } else if (boardState[x][y] == 2) {
-        drawRect(x, y);
+        drawRect(boardPosition);
       } else {
         // render preview texture
         int idx = y * board->getHeight() + x;
-        previewTextures[idx].render(
-            sceneContext->renderer,
-            calcCenterX(x, board->getWidth(), sceneContext->screenWidth),
-            calcCenterY(y, board->getHeight(), sceneContext->screenHeight));
+        Position screenPosition = boardPositionToScreenPosition(boardPosition);
+        previewTextures[idx].render(sceneContext->renderer, screenPosition.x,
+                                    screenPosition.y);
       }
     }
   }
