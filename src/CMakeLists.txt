@@ -17,6 +17,7 @@ add_library(
     gui/GameSceneMenu.cpp 
     gui/GameSceneGameOver.cpp 
     gui/LTexture.cpp 
+    gui/LTimer.cpp 
     gui/SceneManager.cpp 
     ${HEADER_LIST}
 )

@@ -14,15 +14,19 @@ void GameSceneBoard::processFrame() {
   if (board->nextTurn()) {
     // update required if a turn was executed
     updateActivePlayerTexture();
-    needsRender = true;
   }
 }
 
 bool GameSceneBoard::init() {
+  // Init Game state
+  board = new Board();
+
+  // Init active player texture
   if (!updateActivePlayerTexture()) {
     return false;
   }
 
+  // Init preview textures
   for (int i = 0; i < 9; i++) {
     SDL_Color textColor = {0, 0, 0};
     char buffer[2];
@@ -147,11 +151,7 @@ void GameSceneBoard::drawBoard() {
   }
 }
 
-GameSceneBoard::GameSceneBoard(SceneContext *context) : GameScene(context) {
-  // Init Game state
-  board = new Board();
-
-  init();
+GameSceneBoard::~GameSceneBoard() {
+  fontTexture.free();
+  previewTextures->free();
 }
-
-GameSceneBoard::~GameSceneBoard() { fontTexture.free(); }

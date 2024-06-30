@@ -1,4 +1,6 @@
 #pragma once
+#include <gui/LTexture.hpp>
+#include <gui/LTimer.hpp>
 #include <gui/SceneContext.hpp>
 
 enum GameScenes {
@@ -10,13 +12,21 @@ enum GameScenes {
 
 class GameScene {
  private:
+  const int SCREEN_FPS = 60;
+  const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+
+  // FPS Counter
+  int totalFrames = 0;
+  LTimer fpsTimer;
+  LTexture fpsTexture;
+
   // Clear scene before rendering new content
   void resetScreen();
+  void renderFrameRate();
 
  protected:
   SceneContext *sceneContext = NULL;
 
-  bool needsRender = true;
   GameScenes currentScene = GAME_SCENE_UNDEF;
   GameScenes nextScene = GAME_SCENE_UNDEF;
 
@@ -26,7 +36,7 @@ class GameScene {
   virtual void processFrame() = 0;
 
  public:
-  GameScene(SceneContext *sceneContext) : sceneContext(sceneContext) {}
+  GameScene(SceneContext *sceneContext);
   GameScenes getCurrentScene() { return currentScene; }
   GameScenes getNextScene() { return nextScene; }
   // Ensures scene is only re-rendered if required

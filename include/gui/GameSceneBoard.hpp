@@ -28,7 +28,9 @@ class GameSceneBoard : public GameScene {
   void draw();
 
  public:
-  GameSceneBoard(SceneContext *sceneContext);
+  GameSceneBoard(SceneContext *sceneContext) : GameScene(sceneContext) {
+    init();
+  }
   ~GameSceneBoard();
   void handleKeyPress(SDL_Event *e);
 };
